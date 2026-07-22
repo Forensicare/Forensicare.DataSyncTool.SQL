@@ -51,7 +51,7 @@ GO
 GO
 :r $(RootPath)\Tables\dbo.DirectDeposits.sql
 GO
-:r $(RootPath)\Tables\dbo.BusinessUnits.sql
+:r $(RootPath)\Tables\dbo.DataSynchBusinessUnits.sql
 GO
 
 

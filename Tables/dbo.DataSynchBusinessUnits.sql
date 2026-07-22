@@ -1,6 +1,6 @@
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'BusinessUnits')
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'DataSynchBusinessUnits')
 BEGIN
-    CREATE TABLE dbo.BusinessUnits
+    CREATE TABLE dbo.DataSynchBusinessUnits
     (
         BusinessUnitLedgerCode VARCHAR(100) NULL,
         BusinessUnitName VARCHAR(200) NULL,
