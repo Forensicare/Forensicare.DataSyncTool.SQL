@@ -10,7 +10,7 @@
 --   3. Stored Procedures
 -- ============================================================
 
-:setvar RootPath "C:\DEV\repo\Forensicare.SQL"
+:setvar RootPath "C:\DEV\repo\Forensicare.DataSyncTool.SQL"
 
 USE [HCMDW];
 GO
@@ -51,6 +51,9 @@ GO
 GO
 :r $(RootPath)\Tables\dbo.DirectDeposits.sql
 GO
+:r $(RootPath)\Tables\dbo.BusinessUnits.sql
+GO
+
 
 -- ------------------------------------------------------------
 -- 2. Functions
