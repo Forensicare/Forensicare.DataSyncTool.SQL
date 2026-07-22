@@ -1,0 +1,9 @@
+CREATE OR ALTER FUNCTION dbo.fn_NullSafeUpper
+(
+    @Value VARCHAR(MAX)
+)
+RETURNS VARCHAR(MAX)
+AS
+BEGIN
+    RETURN UPPER(ISNULL(@Value, ''));
+END;
