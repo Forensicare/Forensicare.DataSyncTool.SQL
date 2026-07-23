@@ -9,6 +9,10 @@ BEGIN
     SELECT W.WAPID,
            W.WAPCode,
            W.Status,
+           W.Description,
+           W.CostCentreCode,
+           W.BudgetFTE,
+           W.ParentCode,
            W.XWAPENDDATE
     INTO #OrphanedWAPS
     FROM dbo.Syn_WAP W
@@ -36,11 +40,15 @@ BEGIN
     SELECT @RecordCount = COUNT(*)
     FROM #OrphanedWAPS;
 
-    SELECT WAPID,
-           WAPCode,
-           Status,
-           XWAPENDDATE
-    FROM #OrphanedWAPS
+    SELECT W.WAPID,
+           W.WAPCode,
+           W.Status,
+           W.Description,
+           W.CostCentreCode,
+           W.BudgetFTE,
+           W.ParentCode,
+           W.XWAPENDDATE
+    FROM #OrphanedWAPS W
     ORDER BY WAPCode OFFSET (@Page - 1) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY;
 
     DROP TABLE #OrphanedWAPS;
