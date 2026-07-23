@@ -40,6 +40,16 @@ BEGIN
     SELECT @RecordCount = COUNT(*)
     FROM #OrphanedWAPS;
 
+    WITH BusinessUnits
+    AS (SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY BusinessUnitLedgerCode ORDER BY BusinessUnitName DESC) AS rn
+        FROM dbo.DataSynchBusinessUnits),
+         LatestPositions
+    AS (SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY PositionNumber
+                                  ORDER BY PositionStatusEffectiveStart DESC
+                                 ) AS rn
+        FROM dbo.DataSynchPositions)
     SELECT W.WAPID,
            W.WAPCode,
            W.Status,
@@ -47,9 +57,18 @@ BEGIN
            W.CostCentreCode,
            W.BudgetFTE,
            W.ParentCode,
+           P.JobAssignmentReferenceCode,
+		   b.BusinessUnitReferenceCode,
            W.XWAPENDDATE
     FROM #OrphanedWAPS W
-    ORDER BY WAPCode OFFSET (@Page - 1) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY;
+        LEFT JOIN LatestPositions P
+            ON P.PositionNumber LIKE W.ParentCode + '%'
+               AND P.rn = 1
+               AND TRIM(P.PositionNumber) NOT LIKE '% %'
+        LEFT JOIN BusinessUnits b
+            ON W.CostCentreCode = b.BusinessUnitLedgerCode
+               AND b.rn = 1
+    ORDER BY W.WAPCode OFFSET (@Page - 1) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY;
 
     DROP TABLE #OrphanedWAPS;
 
