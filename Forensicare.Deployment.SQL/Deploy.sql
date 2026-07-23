@@ -100,6 +100,8 @@ GO
 GO
 :r $(RootPath)\StoredProcedures\dbo.spSyncData_ImportDayforcePositions_json.sql
 GO
+:r $(RootPath)\StoredProcedures\dbo.spSyncData_ImportDayforceBusinessUnits_json.sql
+GO
 :r $(RootPath)\StoredProcedures\dbo.spGetEmployeesForBulkUpdate_IT.sql
 GO
 :r $(RootPath)\StoredProcedures\dbo.spSyncData_CompleteBulkItem_IT.sql
