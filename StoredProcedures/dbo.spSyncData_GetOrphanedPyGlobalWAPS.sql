@@ -63,11 +63,11 @@ BEGIN
            W.XWAPENDDATE
     FROM #OrphanedWAPS W
         LEFT JOIN LatestPositions P
-            ON P.PositionNumber LIKE W.ParentCode + '%'
+            ON P.PositionNumber COLLATE Latin1_General_CI_AS LIKE W.ParentCode + '%'
                AND P.rn = 1
                AND TRIM(P.PositionNumber) NOT LIKE '% %'
         LEFT JOIN BusinessUnits b
-            ON W.CostCentreCode = b.BusinessUnitLedgerCode
+            ON W.CostCentreCode COLLATE Latin1_General_CI_AS = b.BusinessUnitLedgerCode
                AND b.rn = 1
     ORDER BY W.WAPCode OFFSET (@Page - 1) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY;
 
