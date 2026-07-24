@@ -6,8 +6,7 @@ BEGIN
         BusinessUnitName VARCHAR(200) NULL,
         BusinessUnitReferenceCode VARCHAR(400) NULL,
         BusinessUnitActivationDate DATE NULL,
-        BusinessUnitDeActivationDate DATE NULL,
-        LocationReferenceCode VARCHAR(300) NULL,
+        BusinessUnitDeActivationDate DATE NULL,        
         ImportedAt DATETIME2
             DEFAULT GETDATE() NOT NULL
     );

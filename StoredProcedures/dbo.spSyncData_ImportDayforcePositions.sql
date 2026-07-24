@@ -17,6 +17,7 @@ BEGIN
     -- [45]  Position reference code     -> PositionReferenceCode
     -- [46]  Supports interim occupancy  -> SupportsInterimOccupancy
     -- [48]  JobAssignmentReferenceCode  -> Job Assignment Reference Code
+    -- [49]  LocationReferenceCode       -> Location Reference Code
 
     CREATE TABLE #Staging
     (
@@ -32,7 +33,8 @@ BEGIN
         PositionStatusEffectiveEnd VARCHAR(50),
         PositionReferenceCode NVARCHAR(100),
         SupportsInterimOccupancy VARCHAR(10),
-        JobAssignmentReferenceCode NVARCHAR(300)
+        JobAssignmentReferenceCode NVARCHAR(300),
+        LocationReferenceCode NVARCHAR(300)
     );
 
     DECLARE @Line NVARCHAR(MAX);
@@ -71,7 +73,8 @@ BEGIN
                 PositionStatusEffectiveEnd,
                 PositionReferenceCode,
                 SupportsInterimOccupancy,
-                JobAssignmentReferenceCode
+                JobAssignmentReferenceCode,
+                LocationReferenceCode
             )
             SELECT JSON_VALUE(@Json, '$[11]'), -- Position number
                    JSON_VALUE(@Json, '$[12]'), -- Position name
@@ -85,7 +88,8 @@ BEGIN
                    JSON_VALUE(@Json, '$[42]'), -- Position status effective end
                    JSON_VALUE(@Json, '$[45]'), -- Position reference code
                    JSON_VALUE(@Json, '$[46]'), -- Supports interim occupancy
-                   JSON_VALUE(@Json, '$[48]'); -- Job Assignment Reference Code
+                   JSON_VALUE(@Json, '$[48]'), -- Job Assignment Reference Code
+                   JSON_VALUE(@Json, '$[49]'); -- Location Reference Code
         END;
 
         FETCH NEXT FROM cur
@@ -112,6 +116,7 @@ BEGIN
         SupportsInterimOccupancy,
         PositionReferenceCode,
         JobAssignmentReferenceCode,
+        LocationReferenceCode,
         ImportedAt
     )
     SELECT PositionNumber,
@@ -157,6 +162,7 @@ BEGIN
            END,
            NULLIF(TRIM(PositionReferenceCode), ''),
            NULLIF(TRIM(JobAssignmentReferenceCode), ''),
+           NULLIF(TRIM(LocationReferenceCode), ''),
            GETDATE()
     FROM #Staging
     WHERE NULLIF(TRIM(PositionNumber), '') IS NOT NULL;

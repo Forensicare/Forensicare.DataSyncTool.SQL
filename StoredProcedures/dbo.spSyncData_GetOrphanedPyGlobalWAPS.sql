@@ -56,9 +56,10 @@ BEGIN
            W.Description,
            W.CostCentreCode,
            W.BudgetFTE,
-           W.ParentCode,
            P.JobAssignmentReferenceCode,
-		   b.BusinessUnitReferenceCode,
+           b.BusinessUnitReferenceCode,
+           P.LocationReferenceCode,
+           P.PositionReferenceCode AS ParentCode,
            W.XWAPENDDATE
     FROM #OrphanedWAPS W
         LEFT JOIN LatestPositions P

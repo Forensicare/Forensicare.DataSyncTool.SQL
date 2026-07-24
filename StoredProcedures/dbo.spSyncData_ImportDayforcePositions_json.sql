@@ -20,6 +20,7 @@ BEGIN
         SupportsInterimOccupancy,
         PositionReferenceCode,
         JobAssignmentReferenceCode,
+        LocationReferenceCode,
         ImportedAt
     )
     SELECT PositionNumber,
@@ -66,6 +67,7 @@ BEGIN
            END,
            NULLIF(TRIM(PositionReferenceCode), ''),
            NULLIF(TRIM(JobAssignmentReferenceCode), ''),
+           NULLIF(TRIM(LocationReferenceCode), ''),
            GETDATE()
     FROM OPENJSON(@JsonContent)
          WITH
@@ -82,7 +84,8 @@ BEGIN
              PositionStatusEffectiveEnd VARCHAR(50) '$."Position status effective end"',
              SupportsInterimOccupancy VARCHAR(10) '$."Supports interim occupancy"',
              PositionReferenceCode NVARCHAR(100) '$."Position reference code"',
-             JobAssignmentReferenceCode NVARCHAR(300) '$."Job assignment reference code"'
+             JobAssignmentReferenceCode NVARCHAR(300) '$."Job assignment reference code"',
+             LocationReferenceCode NVARCHAR(300) '$."Location reference code"'
          )
     WHERE NULLIF(TRIM(PositionNumber), '') IS NOT NULL;
 

@@ -21,7 +21,6 @@ BEGIN
     );
 END;
 
-
 -- Add new columns if they do not exist
 IF NOT EXISTS
 (
@@ -33,4 +32,16 @@ IF NOT EXISTS
 BEGIN
     ALTER TABLE dbo.DataSynchPositions
     ADD JobAssignmentReferenceCode NVARCHAR(300);
+END;
+
+IF NOT EXISTS
+(
+    SELECT 1
+    FROM sys.columns
+    WHERE object_id = OBJECT_ID('dbo.DataSynchPositions')
+          AND name = 'LocationReferenceCode'
+)
+BEGIN
+    ALTER TABLE dbo.DataSynchPositions
+    ADD LocationReferenceCode NVARCHAR(300);
 END;
